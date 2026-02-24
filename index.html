@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harsh AI Studios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600&family=Google+Sans+Mono&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-base: #0d0f12;
+    --bg-surface: #131720;
+    --bg-card: #1a1f2e;
+    --bg-hover: #1e2535;
+    --bg-active: #232a3b;
+    --border: #252d3f;
+    --border-light: #2e3850;
+    --accent: #4f8ef7;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --accent4: #f59e0b;
+    --text-primary: #e2e8f7;
+    --text-secondary: #8892a4;
+    --text-muted: #4a5568;
+    --red: #f87171;
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --sidebar-w: 260px;
+    --right-w: 300px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'DM Sans', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    font-size: 13px;
+    cursor: default;
+  }
+
+  /* TOP NAV */
+  .topnav {
+    display: flex;
+    align-items: center;
+    height: 52px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    gap: 12px;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: 'Google Sans', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+
+  .logo-icon {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, #4f8ef7, #a78bfa);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .nav-divider {
+    width: 1px; height: 24px;
+    background: var(--border);
+    margin: 0 4px;
+  }
+
+  .project-chip {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .project-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .project-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+
+  .nav-tabs {
+    display: flex;
+    gap: 2px;
+    margin-left: 12px;
+    flex: 1;
+  }
+
+  .nav-tab {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-family: 'Google Sans', sans-serif;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .nav-tab:hover { background: var(--bg-hover); color: var(--text-primary); }
+  .nav-tab.active { background: rgba(79,142,247,0.12); color: var(--accent); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .token-badge {
+    display: flex; align-items: center; gap: 5px;
+    background: rgba(79,142,247,0.1);
+    border: 1px solid rgba(79,142,247,0.2);
+    border-radius: 16px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--accent);
+    font-family: 'Google Sans Mono', monospace;
+  }
+
+  .btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-family: 'Google Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--text-primary); background: var(--bg-hover); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: #6ba0ff; }
+
+  .avatar {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, #4f8ef7 0%, #a78bfa 100%);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* LAYOUT */
+  .layout {
+    display: flex;
+    height: calc(100vh - 52px);
+    margin-top: 52px;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .sidebar-section { padding: 14px 12px 8px; }
+  .sidebar-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 0 8px 8px;
+  }
+
+  .model-selector {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 6px;
+  }
+  .model-selector:hover { border-color: var(--accent); }
+  .model-selector .model-name {
+    font-family: 'Google Sans', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--text-primary);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .model-selector .model-name .badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .badge-pro { background: rgba(167,139,250,0.15); color: var(--accent2); }
+  .badge-flash { background: rgba(251,191,36,0.15); color: var(--yellow); }
+  .badge-exp { background: rgba(52,211,153,0.15); color: var(--green); }
+  .model-selector .model-sub {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+  .model-selector.selected { border-color: rgba(79,142,247,0.5); background: rgba(79,142,247,0.06); }
+  .model-selector.selected .model-name { color: var(--accent); }
+
+  .sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 12.5px;
+    transition: all 0.15s;
+  }
+  .sidebar-nav-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+  .sidebar-nav-item.active { background: rgba(79,142,247,0.1); color: var(--accent); }
+  .sidebar-nav-item .icon { font-size: 15px; }
+  .sidebar-nav-item .count {
+    margin-left: auto;
+    background: var(--bg-active);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+    padding: 12px;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--bg-base);
+  }
+
+  /* CHAT AREA */
+  .chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .chat-area::-webkit-scrollbar { width: 4px; }
+  .chat-area::-webkit-scrollbar-track { background: transparent; }
+  .chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  /* Message styles */
+  .message { display: flex; gap: 12px; animation: fadeSlideIn 0.3s ease; }
+  @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .message.user { flex-direction: row-reverse; }
+  .msg-avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
+  .msg-avatar.ai { background: linear-gradient(135deg, #4f8ef7, #a78bfa); }
+  .msg-avatar.user-av { background: linear-gradient(135deg, #34d399, #4f8ef7); }
+
+  .msg-content { max-width: 70%; }
+  .msg-label { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; font-family: 'Google Sans', sans-serif; }
+  .message.user .msg-label { text-align: right; }
+
+  .msg-bubble {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    line-height: 1.6;
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+  .message.user .msg-bubble {
+    background: rgba(79,142,247,0.1);
+    border-color: rgba(79,142,247,0.25);
+  }
+
+  .msg-bubble code {
+    font-family: 'Google Sans Mono', monospace;
+    background: rgba(255,255,255,0.06);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--accent3);
+  }
+
+  .msg-bubble .code-block {
+    background: #0a0d14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px 0;
+    font-family: 'Google Sans Mono', monospace;
+    font-size: 11.5px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .msg-bubble .code-block .k { color: #c792ea; }
+  .msg-bubble .code-block .f { color: #82aaff; }
+  .msg-bubble .code-block .s { color: #c3e88d; }
+  .msg-bubble .code-block .n { color: #f78c6c; }
+  .msg-bubble .code-block .c { color: #546e7a; font-style: italic; }
+  .msg-bubble .code-block .t { color: #ffcb6b; }
+
+  .typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 0;
+  }
+  .typing-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: typingBounce 1.2s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  /* STREAMING text */
+  .streaming { position: relative; }
+  .streaming::after {
+    content: '▋';
+    color: var(--accent);
+    animation: blink 0.8s infinite;
+    font-size: 11px;
+    margin-left: 1px;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* INPUT AREA */
+  .input-area {
+    border-top: 1px solid var(--border);
+    background: var(--bg-surface);
+    padding: 16px 24px 20px;
+  }
+
+  .input-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .tool-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 11.5px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tool-btn:hover { background: var(--bg-hover); color: var(--text-primary); border-color: var(--border-light); }
+
+  .input-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: border-color 0.15s;
+  }
+  .input-row:focus-within { border-color: rgba(79,142,247,0.5); }
+
+  #promptInput {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 13.5px;
+    font-family: 'DM Sans', sans-serif;
+    resize: none;
+    line-height: 1.5;
+    min-height: 22px;
+    max-height: 140px;
+    overflow-y: auto;
+  }
+  #promptInput::placeholder { color: var(--text-muted); }
+  #promptInput::-webkit-scrollbar { width: 3px; }
+  #promptInput::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .send-btn {
+    width: 34px; height: 34px;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .send-btn:hover { background: #6ba0ff; transform: scale(1.05); }
+  .send-btn:disabled { background: var(--bg-active); cursor: default; transform: none; }
+
+  .input-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 0 4px;
+  }
+  .input-footer-text { font-size: 10.5px; color: var(--text-muted); }
+  .shortcut { font-family: 'Google Sans Mono', monospace; font-size: 10px; background: var(--bg-active); padding: 1px 5px; border-radius: 3px; color: var(--text-muted); }
+
+  /* RIGHT PANEL */
+  .right-panel {
+    width: var(--right-w);
+    background: var(--bg-surface);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .panel-header {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Google Sans', sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    color: var(--text-primary);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .panel-scroll { overflow-y: auto; flex: 1; padding: 14px; }
+  .panel-scroll::-webkit-scrollbar { width: 3px; }
+  .panel-scroll::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .param-group { margin-bottom: 20px; }
+  .param-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .param-value {
+    font-family: 'Google Sans Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(79,142,247,0.1);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .slider-track {
+    width: 100%;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    position: relative;
+    cursor: pointer;
+  }
+  .slider-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--bg-surface);
+  }
+
+  .stop-sequence-area {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-family: 'Google Sans Mono', monospace;
+    min-height: 36px;
+  }
+
+  /* Token usage viz */
+  .token-usage {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .token-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin: 8px 0;
+    overflow: hidden;
+  }
+  .token-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .token-fill.input { background: linear-gradient(90deg, #4f8ef7, #7cb3ff); }
+  .token-fill.output { background: linear-gradient(90deg, #a78bfa, #c4b5fd); }
+  .token-fill.context { background: linear-gradient(90deg, #34d399, #6ee7b7); }
+  .token-stats { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); font-family: 'Google Sans Mono', monospace; }
+
+  /* Latency chart */
+  .latency-mini {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .latency-label { font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px; }
+  .latency-bars { display: flex; align-items: flex-end; gap: 3px; height: 40px; }
+  .l-bar {
+    flex: 1;
+    border-radius: 2px 2px 0 0;
+    background: rgba(79,142,247,0.3);
+    transition: height 0.4s ease;
+    min-height: 4px;
+  }
+  .l-bar.current { background: var(--accent); }
+
+  /* System prompt area */
+  .sys-prompt-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-family: 'DM Sans', sans-serif;
+    max-height: 100px;
+    overflow-y: auto;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 24px;
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border);
+    font-size: 10.5px;
+    color: var(--text-muted);
+    font-family: 'Google Sans Mono', monospace;
+  }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .status-dot.green { background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+  .status-item { display: flex; align-items: center; gap: 4px; }
+
+  /* Welcome overlay */
+  .welcome-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.5s;
+  }
+  .welcome-overlay.hidden { opacity: 0; }
+  .welcome-logo {
+    width: 64px; height: 64px;
+    background: linear-gradient(135deg, #4f8ef7, #a78bfa);
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 8px 32px rgba(79,142,247,0.3);
+    animation: floatLogo 3s ease-in-out infinite;
+  }
+  @keyframes floatLogo {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .welcome-title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+  }
+  .welcome-title span { color: var(--accent); }
+  .welcome-sub { font-size: 13px; color: var(--text-secondary); text-align: center; max-width: 340px; line-height: 1.7; }
+  .welcome-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 400px; }
+  .welcome-chip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    pointer-events: all;
+    transition: all 0.15s;
+  }
+  .welcome-chip:hover { border-color: var(--accent); color: var(--accent); background: rgba(79,142,247,0.08); }
+
+  /* notification toast */
+  .toast {
+    position: fixed;
+    bottom: 80px;
+    right: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: var(--text-primary);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    z-index: 1000;
+    transform: translateX(120%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 280px;
+  }
+  .toast.show { transform: translateX(0); }
+  .toast-title { font-weight: 600; color: var(--accent); margin-bottom: 3px; }
+
+  /* model activity widget */
+  .activity-widget {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .activity-title { font-size: 10.5px; color: var(--text-secondary); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+  .activity-log { font-family: 'Google Sans Mono', monospace; font-size: 10px; line-height: 1.8; color: var(--text-muted); max-height: 80px; overflow: hidden; }
+  .activity-log .log-line { display: flex; gap: 6px; }
+  .activity-log .log-time { color: var(--accent); }
+  .activity-log .log-ok { color: var(--green); }
+  .activity-log .log-warn { color: var(--yellow); }
+
+  .chat-container { position: relative; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* Context chip row */
+  .context-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-surface);
+    overflow-x: auto;
+  }
+  .context-row::-webkit-scrollbar { display: none; }
+  .ctx-chip {
+    display: flex; align-items: center; gap: 5px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .ctx-chip:hover { border-color: var(--accent); color: var(--text-primary); }
+  .ctx-chip .cc { font-size: 13px; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    Harsh <span>AI</span> Studios
+  </div>
+  <div class="nav-divider"></div>
+  <div class="project-chip">
+    <div class="dot"></div>
+    New Prompt
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <div class="nav-tabs">
+    <div class="nav-tab active">Prompt</div>
+    <div class="nav-tab">Chat</div>
+    <div class="nav-tab">Build</div>
+    <div class="nav-tab">Tune</div>
+    <div class="nav-tab">Evaluate</div>
+  </div>
+  <div class="nav-right">
+    <div class="token-badge" id="tokenBadge">⚡ 0 / 1M tokens</div>
+    <div class="btn">💾 Save</div>
+    <div class="btn">⇄ Compare</div>
+    <div class="btn primary">▶ Run</div>
+    <div class="nav-divider"></div>
+    <div class="avatar">H</div>
+  </div>
+</nav>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Model</div>
+      <div class="model-selector selected" onclick="selectModel(this, 'Harsh-Pro-2.5', 'Most capable · 1M ctx')">
+        <div class="model-name">Harsh-Pro-2.5 <span class="badge badge-pro">PRO</span></div>
+        <div class="model-sub">Most capable · 1M ctx</div>
+      </div>
+      <div class="model-selector" onclick="selectModel(this, 'Harsh-Flash-2.5', 'Fast · Low latency · 1M ctx')">
+        <div class="model-name">Harsh-Flash-2.5 <span class="badge badge-flash">FLASH</span></div>
+        <div class="model-sub">Fast · Low latency</div>
+      </div>
+      <div class="model-selector" onclick="selectModel(this, 'Harsh-Exp-0827', 'Experimental · Research preview')">
+        <div class="model-name">Harsh-Exp-0827 <span class="badge badge-exp">EXP</span></div>
+        <div class="model-sub">Experimental preview</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section" style="border-top:1px solid var(--border); margin-top: 4px;">
+      <div class="sidebar-label">Navigation</div>
+      <div class="sidebar-nav-item active"><span class="icon">💬</span> Prompt Studio</div>
+      <div class="sidebar-nav-item"><span class="icon">🔧</span> Fine-tuning <span class="count">3</span></div>
+      <div class="sidebar-nav-item"><span class="icon">📊</span> Evaluations</div>
+      <div class="sidebar-nav-item"><span class="icon">🗂️</span> Files & Datasets <span class="count">12</span></div>
+      <div class="sidebar-nav-item"><span class="icon">🔗</span> API Keys</div>
+      <div class="sidebar-nav-item"><span class="icon">📦</span> Deployments <span class="count">2</span></div>
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="sidebar-nav-item"><span class="icon">📖</span> Documentation</div>
+      <div class="sidebar-nav-item"><span class="icon">⚙️</span> Settings</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- Context row -->
+    <div class="context-row">
+      <div class="ctx-chip"><span class="cc">🧠</span> System prompt</div>
+      <div class="ctx-chip"><span class="cc">🔧</span> Function calling</div>
+      <div class="ctx-chip"><span class="cc">📎</span> Attach file</div>
+      <div class="ctx-chip"><span class="cc">🖼️</span> Add image</div>
+      <div class="ctx-chip"><span class="cc">🎙️</span> Voice</div>
+      <div class="ctx-chip"><span class="cc">📊</span> Grounding</div>
+      <div class="ctx-chip"><span class="cc">🌐</span> Web search</div>
+    </div>
+
+    <!-- Chat area -->
+    <div class="chat-container">
+      <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-logo">⚡</div>
+        <div class="welcome-title">Harsh <span>AI</span> Studios</div>
+        <div class="welcome-sub">Your professional AI development workspace. Start typing or choose a prompt below.</div>
+        <div class="welcome-chips">
+          <div class="welcome-chip" onclick="sendStarter('Build a REST API in Python with FastAPI')">🐍 FastAPI REST server</div>
+          <div class="welcome-chip" onclick="sendStarter('Explain transformer attention mechanism')">🤖 Transformer attention</div>
+          <div class="welcome-chip" onclick="sendStarter('Write a React dashboard component with charts')">⚛️ React dashboard</div>
+          <div class="welcome-chip" onclick="sendStarter('Fine-tune a model on custom dataset')">🎯 Fine-tune model</div>
+          <div class="welcome-chip" onclick="sendStarter('Create a data pipeline with pandas')">📊 Data pipeline</div>
+          <div class="welcome-chip" onclick="sendStarter('Deploy model to production API')">🚀 Deploy to production</div>
+        </div>
+      </div>
+
+      <div class="chat-area" id="chatArea"></div>
+    </div>
+
+    <!-- Input -->
+    <div class="input-area">
+      <div class="input-toolbar">
+        <div class="tool-btn">💬 Single turn</div>
+        <div class="tool-btn" onclick="toggleStreaming()">⚡ Streaming: <span id="streamingLabel">ON</span></div>
+        <div class="tool-btn">📋 Few-shot</div>
+        <div class="tool-btn">🔁 Auto-run</div>
+      </div>
+      <div class="input-row">
+        <textarea id="promptInput" rows="1" placeholder="Type a prompt… (just start typing, no Enter needed)"></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">↑</button>
+      </div>
+      <div class="input-footer">
+        <span class="input-footer-text">Start typing anywhere to generate</span>
+        <span class="shortcut">Tab</span>
+        <span class="input-footer-text">shortcuts</span>
+        <span class="shortcut">Enter</span>
+        <span class="input-footer-text">send</span>
+        <span class="shortcut">Shift+Enter</span>
+        <span class="input-footer-text">new line</span>
+      </div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <div class="status-item"><div class="status-dot green"></div> API Connected</div>
+      <div class="status-item">Model: <span id="statusModel" style="color:var(--accent)">Harsh-Pro-2.5</span></div>
+      <div class="status-item">Latency: <span id="latencyVal" style="color:var(--green)">—</span></div>
+      <div class="status-item">Session: <span style="color:var(--accent2)" id="sessionId">ses_</span></div>
+      <div class="status-item" style="margin-left:auto">Harsh AI Studios v3.1.0</div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <aside class="right-panel">
+    <div class="panel-header">⚙️ Configuration</div>
+    <div class="panel-scroll">
+
+      <!-- Token usage -->
+      <div class="token-usage">
+        <div class="param-label">Token Usage <span class="param-value" id="totalTokens">0 used</span></div>
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px">Input</div>
+        <div class="token-bar"><div class="token-fill input" id="inputBar" style="width:0%"></div></div>
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px">Output</div>
+        <div class="token-bar"><div class="token-fill output" id="outputBar" style="width:0%"></div></div>
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:4px">Context</div>
+        <div class="token-bar"><div class="token-fill context" id="contextBar" style="width:3%"></div></div>
+        <div class="token-stats"><span id="inTok">0</span><span id="outTok">0</span><span>1,000,000</span></div>
+      </div>
+
+      <!-- Latency chart -->
+      <div class="latency-mini">
+        <div class="latency-label">Response latency (ms)</div>
+        <div class="latency-bars" id="latencyBars">
+          <div class="l-bar" style="height:20%"></div>
+          <div class="l-bar" style="height:30%"></div>
+          <div class="l-bar" style="height:55%"></div>
+          <div class="l-bar" style="height:40%"></div>
+          <div class="l-bar" style="height:70%"></div>
+          <div class="l-bar" style="height:35%"></div>
+          <div class="l-bar" style="height:50%"></div>
+          <div class="l-bar" style="height:60%"></div>
+          <div class="l-bar current" style="height:45%"></div>
+        </div>
+      </div>
+
+      <div class="param-group">
+        <div class="param-label">Temperature <span class="param-value" id="tempVal">0.7</span></div>
+        <input type="range" min="0" max="200" value="70" oninput="document.getElementById('tempVal').textContent=(this.value/100).toFixed(1)">
+      </div>
+
+      <div class="param-group">
+        <div class="param-label">Max output tokens <span class="param-value" id="maxTokVal">8,192</span></div>
+        <input type="range" min="256" max="65536" value="8192" step="256" oninput="document.getElementById('maxTokVal').textContent=parseInt(this.value).toLocaleString()">
+      </div>
+
+      <div class="param-group">
+        <div class="param-label">Top-P <span class="param-value" id="topPVal">0.95</span></div>
+        <input type="range" min="0" max="100" value="95" oninput="document.getElementById('topPVal').textContent=(this.value/100).toFixed(2)">
+      </div>
+
+      <div class="param-group">
+        <div class="param-label">Top-K <span class="param-value" id="topKVal">40</span></div>
+        <input type="range" min="1" max="100" value="40" oninput="document.getElementById('topKVal').textContent=this.value">
+      </div>
+
+      <div class="param-group">
+        <div class="param-label" style="margin-bottom:6px">Stop sequences</div>
+        <div class="stop-sequence-area">Add stop sequences…</div>
+      </div>
+
+      <div class="param-group">
+        <div class="param-label" style="margin-bottom:6px">System prompt</div>
+        <div class="sys-prompt-box" id="sysPromptBox">You are a helpful, accurate, and concise AI assistant built by Harsh AI Studios. Respond clearly and provide working code examples when relevant.</div>
+      </div>
+
+      <!-- Activity log -->
+      <div class="activity-widget">
+        <div class="activity-title"><span>📡</span> Model activity</div>
+        <div class="activity-log" id="activityLog">
+          <div class="log-line"><span class="log-time">00:00</span><span class="log-ok">✓</span><span>API connected</span></div>
+          <div class="log-line"><span class="log-time">00:00</span><span class="log-ok">✓</span><span>Model loaded</span></div>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="toast-title" id="toastTitle">Model switched</div>
+  <div id="toastMsg">Now using Harsh-Pro-2.5</div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let currentModel = 'Harsh-Pro-2.5';
+let totalInputTokens = 0;
+let totalOutputTokens = 0;
+let isStreaming = true;
+let isGenerating = false;
+let latencies = [20,30,55,40,70,35,50,60,45];
+let promptBuffer = '';
+let autoSendTimer = null;
+let typingAnywhere = false;
+
+// Generate random session ID
+document.getElementById('sessionId').textContent = 'ses_' + Math.random().toString(36).substr(2,9);
+
+// ─── RESPONSES DATABASE ───────────────────────────────────────────────────────
+const aiResponses = [
+  {
+    text: `Here's a complete FastAPI REST server with CRUD operations:`,
+    code: `<span class="k">from</span> <span class="t">fastapi</span> <span class="k">import</span> FastAPI, HTTPException\n<span class="k">from</span> <span class="t">pydantic</span> <span class="k">import</span> BaseModel\n<span class="k">from</span> <span class="t">typing</span> <span class="k">import</span> List, Optional\n\napp = FastAPI(title=<span class="s">"Harsh AI API"</span>, version=<span class="s">"1.0"</span>)\n\n<span class="k">class</span> <span class="t">Item</span>(BaseModel):\n    id: Optional[int] = <span class="k">None</span>\n    name: str\n    description: str\n    price: float\n\ndb: List[Item] = []\n\n<span class="n">@app.get</span>(<span class="s">"/items"</span>)\n<span class="k">async def</span> <span class="f">get_items</span>() -> List[Item]:\n    <span class="k">return</span> db\n\n<span class="n">@app.post</span>(<span class="s">"/items"</span>, status_code=<span class="n">201</span>)\n<span class="k">async def</span> <span class="f">create_item</span>(item: Item):\n    item.id = len(db) + <span class="n">1</span>\n    db.append(item)\n    <span class="k">return</span> item`,
+    after: `The server runs on port **8000** by default. Start with <code>uvicorn main:app --reload</code>. Visit <code>http://localhost:8000/docs</code> for the interactive Swagger UI.`
+  },
+  {
+    text: `The transformer attention mechanism works as follows. The key insight is the **scaled dot-product attention**:`,
+    code: `<span class="k">import</span> torch\n<span class="k">import</span> torch.nn <span class="k">as</span> nn\n<span class="k">import</span> math\n\n<span class="k">class</span> <span class="t">MultiHeadAttention</span>(nn.Module):\n    <span class="k">def</span> <span class="f">__init__</span>(self, d_model=<span class="n">512</span>, n_heads=<span class="n">8</span>):\n        super().__init__()\n        self.d_k = d_model // n_heads\n        self.n_heads = n_heads\n        self.W_q = nn.Linear(d_model, d_model)\n        self.W_k = nn.Linear(d_model, d_model)\n        self.W_v = nn.Linear(d_model, d_model)\n\n    <span class="k">def</span> <span class="f">scaled_dot_product</span>(self, q, k, v):\n        scores = torch.matmul(q, k.transpose(-2,-1))\n        scores = scores / math.sqrt(self.d_k)\n        weights = torch.softmax(scores, dim=-1)\n        <span class="k">return</span> torch.matmul(weights, v)`,
+    after: `Each head learns different relationship patterns. The <code>sqrt(d_k)</code> scaling prevents vanishing gradients in softmax when dimensions are large.`
+  },
+  {
+    text: `Here's a production-ready React dashboard component using Recharts:`,
+    code: `<span class="k">import</span> { useState, useEffect } <span class="k">from</span> <span class="s">'react'</span>\n<span class="k">import</span> { LineChart, Line, XAxis, YAxis,\n  CartesianGrid, Tooltip, ResponsiveContainer } <span class="k">from</span> <span class="s">'recharts'</span>\n\n<span class="k">const</span> <span class="f">Dashboard</span> = () => {\n  <span class="k">const</span> [data, setData] = useState([])\n  <span class="k">const</span> [metrics, setMetrics] = useState({ latency: <span class="n">0</span>, rps: <span class="n">0</span> })\n\n  useEffect(() => {\n    <span class="k">const</span> ws = <span class="k">new</span> WebSocket(<span class="s">'ws://api/metrics'</span>)\n    ws.onmessage = (e) => {\n      <span class="k">const</span> d = JSON.parse(e.data)\n      setData(prev => [...prev.slice(-30), d])\n      setMetrics({ latency: d.latency, rps: d.rps })\n    }\n    <span class="k">return</span> () => ws.close()\n  }, [])\n\n  <span class="k">return</span> (\n    &lt;div className=<span class="s">"dashboard"</span>&gt;\n      &lt;ResponsiveContainer width=<span class="s">"100%"</span> height=<span class="n">300</span>&gt;\n        &lt;LineChart data={data}&gt;\n          &lt;Line dataKey=<span class="s">"latency"</span> stroke=<span class="s">"#4f8ef7"</span> /&gt;\n        &lt;/LineChart&gt;\n      &lt;/ResponsiveContainer&gt;\n    &lt;/div&gt;\n  )\n}`,
+    after: `The component connects via WebSocket for real-time updates and auto-limits to the last **30 data points** for performance.`
+  },
+  {
+    text: `To fine-tune on a custom dataset, here's the complete pipeline:`,
+    code: `<span class="k">from</span> transformers <span class="k">import</span> AutoTokenizer, AutoModelForCausalLM\n<span class="k">from</span> datasets <span class="k">import</span> load_dataset\n<span class="k">from</span> peft <span class="k">import</span> LoraConfig, get_peft_model\n\n<span class="c"># Load base model + tokenizer</span>\nmodel_id = <span class="s">"harsh-ai/pro-2.5-base"</span>\ntokenizer = AutoTokenizer.from_pretrained(model_id)\nmodel = AutoModelForCausalLM.from_pretrained(\n    model_id, torch_dtype=torch.bfloat16, device_map=<span class="s">"auto"</span>\n)\n\n<span class="c"># Apply LoRA for efficient fine-tuning</span>\nconfig = LoraConfig(\n    r=<span class="n">16</span>, lora_alpha=<span class="n">32</span>,\n    target_modules=[<span class="s">"q_proj"</span>, <span class="s">"v_proj"</span>],\n    lora_dropout=<span class="n">0.05</span>\n)\nmodel = get_peft_model(model, config)\nmodel.print_trainable_parameters()\n<span class="c"># trainable params: 4,194,304 (0.32%) — massive efficiency gain</span>`,
+    after: `LoRA reduces trainable parameters by ~99% while maintaining performance. Training on 4× A100s takes approximately **2–4 hours** for a 7B model.`
+  },
+  {
+    text: `Here's an efficient data pipeline using pandas and polars:`,
+    code: `<span class="k">import</span> polars <span class="k">as</span> pl\n<span class="k">import</span> pandas <span class="k">as</span> pd\n<span class="k">from</span> pathlib <span class="k">import</span> Path\n\n<span class="k">def</span> <span class="f">build_pipeline</span>(data_dir: str) -> pl.DataFrame:\n    <span class="c"># Lazy load with predicate pushdown</span>\n    df = (\n        pl.scan_parquet(f<span class="s">"{data_dir}/*.parquet"</span>)\n        .filter(pl.col(<span class="s">"timestamp"</span>) > pl.lit(<span class="s">"2024-01-01"</span>))\n        .with_columns([\n            pl.col(<span class="s">"value"</span>).log1p().alias(<span class="s">"log_value"</span>),\n            pl.col(<span class="s">"label"</span>).cast(pl.Categorical)\n        ])\n        .group_by(<span class="s">"category"</span>)\n        .agg([\n            pl.col(<span class="s">"value"</span>).mean().alias(<span class="s">"mean_val"</span>),\n            pl.col(<span class="s">"value"</span>).std().alias(<span class="s">"std_val"</span>),\n            pl.count()\n        ])\n        .collect()\n    )\n    <span class="k">return</span> df`,
+    after: `Polars' lazy evaluation + predicate pushdown means only matching rows are loaded from disk. **~10x faster** than equivalent pandas on large datasets.`
+  },
+  {
+    text: `To deploy your model to a production API, here's the recommended setup:`,
+    code: `<span class="c"># Dockerfile</span>\n<span class="k">FROM</span> nvidia/cuda:<span class="n">12.1</span>-runtime-ubuntu22.04\n\n<span class="k">WORKDIR</span> /app\n<span class="k">COPY</span> requirements.txt .\n<span class="k">RUN</span> pip install --no-cache-dir -r requirements.txt\n\n<span class="k">COPY</span> . .\n<span class="k">EXPOSE</span> <span class="n">8000</span>\n\n<span class="k">CMD</span> [<span class="s">"uvicorn"</span>, <span class="s">"app:api"</span>, \n     <span class="s">"--host"</span>, <span class="s">"0.0.0.0"</span>,\n     <span class="s">"--port"</span>, <span class="s">"8000"</span>,\n     <span class="s">"--workers"</span>, <span class="s">"4"</span>]\n\n<span class="c"># kubernetes deployment</span>\napiVersion: apps/v1\nkind: Deployment\nspec:\n  replicas: <span class="n">3</span>\n  template:\n    spec:\n      containers:\n      - name: harsh-model\n        resources:\n          limits:\n            nvidia.com/gpu: <span class="s">"1"</span>`,
+    after: `Deploy with <code>kubectl apply -f deployment.yaml</code>. The horizontal pod autoscaler will handle traffic spikes automatically.`
+  }
+];
+
+let responseIndex = 0;
+
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+function randInt(a,b) { return Math.floor(Math.random()*(b-a+1))+a; }
+function randEl(arr) { return arr[randInt(0,arr.length-1)]; }
+
+function showToast(title, msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function addActivity(msg, type='ok') {
+  const log = document.getElementById('activityLog');
+  const now = new Date();
+  const time = `${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+  const line = document.createElement('div');
+  line.className = 'log-line';
+  const icon = type==='ok' ? '✓' : type==='warn' ? '⚠' : '→';
+  const cls = type==='ok' ? 'log-ok' : type==='warn' ? 'log-warn' : 'log-time';
+  line.innerHTML = `<span class="log-time">${time}</span><span class="${cls}">${icon}</span><span>${msg}</span>`;
+  log.insertBefore(line, log.firstChild);
+  // Keep last 6
+  while(log.children.length > 6) log.removeChild(log.lastChild);
+}
+
+// ─── MODEL SELECT ─────────────────────────────────────────────────────────────
+function selectModel(el, name, desc) {
+  document.querySelectorAll('.model-selector').forEach(m => m.classList.remove('selected'));
+  el.classList.add('selected');
+  currentModel = name;
+  document.getElementById('statusModel').textContent = name;
+  showToast('Model switched', `Now using ${name}`);
+  addActivity(`Model → ${name}`, 'ok');
+}
+
+// ─── STREAMING TOGGLE ─────────────────────────────────────────────────────────
+function toggleStreaming() {
+  isStreaming = !isStreaming;
+  document.getElementById('streamingLabel').textContent = isStreaming ? 'ON' : 'OFF';
+}
+
+// ─── LATENCY UPDATE ───────────────────────────────────────────────────────────
+function updateLatency(ms) {
+  document.getElementById('latencyVal').textContent = ms + ' ms';
+  latencies.push(ms);
+  if(latencies.length > 9) latencies.shift();
+  const max = Math.max(...latencies);
+  const bars = document.getElementById('latencyBars');
+  bars.innerHTML = '';
+  latencies.forEach((v, i) => {
+    const bar = document.createElement('div');
+    bar.className = 'l-bar' + (i === latencies.length-1 ? ' current' : '');
+    bar.style.height = Math.max(8, Math.round(v/max*100)) + '%';
+    bars.appendChild(bar);
+  });
+}
+
+// ─── TOKEN UPDATE ─────────────────────────────────────────────────────────────
+function updateTokens(inp, out) {
+  totalInputTokens += inp;
+  totalOutputTokens += out;
+  const total = totalInputTokens + totalOutputTokens;
+  document.getElementById('tokenBadge').textContent = `⚡ ${total.toLocaleString()} / 1M tokens`;
+  document.getElementById('totalTokens').textContent = `${total.toLocaleString()} used`;
+  document.getElementById('inTok').textContent = totalInputTokens.toLocaleString();
+  document.getElementById('outTok').textContent = totalOutputTokens.toLocaleString();
+  document.getElementById('inputBar').style.width = Math.min(100, totalInputTokens/10000*100) + '%';
+  document.getElementById('outputBar').style.width = Math.min(100, totalOutputTokens/10000*100) + '%';
+  document.getElementById('contextBar').style.width = Math.min(100, total/10000*100 + 3) + '%';
+}
+
+// ─── MESSAGES ─────────────────────────────────────────────────────────────────
+function appendMessage(role, html, streaming=false) {
+  const chatArea = document.getElementById('chatArea');
+  const welcome = document.getElementById('welcomeOverlay');
+  welcome.classList.add('hidden');
+
+  const msg = document.createElement('div');
+  msg.className = 'message ' + (role==='user' ? 'user' : '');
+
+  const avDiv = document.createElement('div');
+  avDiv.className = 'msg-avatar ' + (role==='user' ? 'user-av' : 'ai');
+  avDiv.textContent = role==='user' ? 'H' : '⚡';
+
+  const content = document.createElement('div');
+  content.className = 'msg-content';
+
+  const label = document.createElement('div');
+  label.className = 'msg-label';
+  label.textContent = role==='user' ? 'You' : `${currentModel}`;
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble' + (streaming ? ' streaming' : '');
+  bubble.innerHTML = html;
+
+  content.appendChild(label);
+  content.appendChild(bubble);
+  msg.appendChild(avDiv);
+  msg.appendChild(content);
+  chatArea.appendChild(msg);
+  chatArea.scrollTop = chatArea.scrollHeight;
+
+  return bubble;
+}
+
+function appendTyping() {
+  const chatArea = document.getElementById('chatArea');
+  const msg = document.createElement('div');
+  msg.className = 'message';
+  msg.id = 'typingMsg';
+
+  const avDiv = document.createElement('div');
+  avDiv.className = 'msg-avatar ai';
+  avDiv.textContent = '⚡';
+
+  const content = document.createElement('div');
+  content.className = 'msg-content';
+  const label = document.createElement('div');
+  label.className = 'msg-label';
+  label.textContent = currentModel;
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+
+  content.appendChild(label);
+  content.appendChild(bubble);
+  msg.appendChild(avDiv);
+  msg.appendChild(content);
+  chatArea.appendChild(msg);
+  chatArea.scrollTop = chatArea.scrollHeight;
+  return msg;
+}
+
+// ─── STREAMING EFFECT ─────────────────────────────────────────────────────────
+function streamText(bubble, fullHtml, onDone) {
+  // We'll stream character by character (strip html, stream text, then reveal)
+  bubble.innerHTML = '';
+  bubble.classList.add('streaming');
+
+  const temp = document.createElement('div');
+  temp.innerHTML = fullHtml;
+  const fullText = temp.innerHTML;
+
+  let i = 0;
+  const speed = 8; // chars per tick
+  function tick() {
+    i += speed;
+    bubble.innerHTML = fullText.substring(0, i) + (i < fullText.length ? '' : '');
+    const chatArea = document.getElementById('chatArea');
+    chatArea.scrollTop = chatArea.scrollHeight;
+    if (i < fullText.length) {
+      setTimeout(tick, 12);
+    } else {
+      bubble.innerHTML = fullHtml;
+      bubble.classList.remove('streaming');
+      if (onDone) onDone();
+    }
+  }
+  setTimeout(tick, 50);
+}
+
+// ─── SEND MESSAGE ─────────────────────────────────────────────────────────────
+function sendMessage(text) {
+  const input = document.getElementById('promptInput');
+  const msg = text || input.value.trim();
+  if (!msg || isGenerating) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  isGenerating = true;
+
+  appendMessage('user', escapeHtml(msg));
+  addActivity(`Request: "${msg.substring(0,30)}${msg.length>30?'…':''}"`, 'info');
+
+  const latency = randInt(180, 820);
+  const typingEl = appendTyping();
+
+  setTimeout(() => {
+    typingEl.remove();
+    const resp = aiResponses[responseIndex % aiResponses.length];
+    responseIndex++;
+
+    const inTokens = randInt(80, 400);
+    const outTokens = randInt(200, 900);
+
+    let html = `<p>${resp.text}</p>`;
+    if (resp.code) {
+      html += `<div class="code-block">${resp.code}</div>`;
+    }
+    if (resp.after) {
+      html += `<p style="margin-top:8px">${resp.after}</p>`;
+    }
+
+    const bubble = appendMessage('ai', '', true);
+
+    if (isStreaming) {
+      streamText(bubble, html, () => {
+        updateTokens(inTokens, outTokens);
+        updateLatency(latency);
+        addActivity(`Response complete (${outTokens} tokens)`, 'ok');
+        isGenerating = false;
+      });
+    } else {
+      bubble.innerHTML = html;
+      bubble.classList.remove('streaming');
+      updateTokens(inTokens, outTokens);
+      updateLatency(latency);
+      addActivity(`Response complete (${outTokens} tokens)`, 'ok');
+      isGenerating = false;
+    }
+  }, randInt(400, 900));
+}
+
+function sendStarter(text) {
+  document.getElementById('promptInput').value = text;
+  sendMessage(text);
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ─── AUTO-TYPE DETECTION ──────────────────────────────────────────────────────
+// ANY key typed goes to the input
+document.addEventListener('keydown', function(e) {
+  const input = document.getElementById('promptInput');
+  const tag = document.activeElement.tagName;
+
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+  if (e.key === 'Enter') {
+    if (input.value.trim()) sendMessage();
+    return;
+  }
+  if (e.key === 'Tab') { e.preventDefault(); showShortcuts(); return; }
+  if (e.key === 'Escape') { input.value = ''; return; }
+  if (e.key.length === 1) {
+    input.focus();
+    input.value += e.key;
+    autoResize(input);
+  } else if (e.key === 'Backspace') {
+    input.focus();
+    input.value = input.value.slice(0, -1);
+    autoResize(input);
+  }
+});
+
+// Enter in input sends
+document.getElementById('promptInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+document.getElementById('promptInput').addEventListener('input', function() {
+  autoResize(this);
+});
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 140) + 'px';
+}
+
+// Tab shortcuts info
+function showShortcuts() {
+  showToast('Keyboard Shortcuts', 'Enter: send • Tab: shortcuts • Esc: clear');
+}
+
+// ─── BOOT ─────────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  // Simulate API handshake
+  setTimeout(() => addActivity('Tokenizer initialized', 'ok'), 800);
+  setTimeout(() => addActivity('Context window: 1,000,000 tokens', 'ok'), 1400);
+  setTimeout(() => showToast('Welcome to Harsh AI Studios', 'Start typing anywhere to begin'), 2000);
+});
+</script>
+</body>
+</html>
