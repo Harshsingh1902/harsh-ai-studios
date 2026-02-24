@@ -7,6 +7,22 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600&family=Google+Sans+Mono&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+    /* MOBILE FIX: Hides sidebars so chat is full screen on phones */
+  @media (max-width: 768px) {
+    .sidebar, .right-panel, .config-panel {
+      display: none !important;
+    }
+    .layout {
+      display: block !important; /* Ensures the layout doesn't use flex on mobile */
+    }
+    .main {
+      width: 100vw !important;
+      height: 100vh !important;
+    }
+    .chat-area {
+      padding: 10px;
+    }
+  }
   :root {
     --bg-base: #0d0f12;
     --bg-surface: #131720;
@@ -948,7 +964,81 @@ let latencies = [20,30,55,40,70,35,50,60,45];
 let promptBuffer = '';
 let autoSendTimer = null;
 let typingAnywhere = false;
+// ─── 1. MAKE SLIDERS WORK (Real-time updates) ─────────────────────────
+document.querySelectorAll('input[type="range"]').forEach(slider => {
+    slider.addEventListener('input', (e) => {
+        const display = e.target.closest('.param-row').querySelector('.param-value');
+        if (display) {
+            let val = e.target.value;
+            // Format for decimals (Temp/Top-P) vs Integers (Tokens)
+            if (e.target.max <= 200) val = (val / 100).toFixed(e.target.max == 100 ? 2 : 1);
+            else val = parseInt(val).toLocaleString();
+            display.textContent = val;
+        }
+    });
+    // Count moving sliders toward the "Server Crash" prank
+    slider.addEventListener('change', () => {
+        interactionCount++;
+        checkPrankStatus();
+    });
+});
 
+// ─── 2. MAKE SIDEBAR & TABS WORK (Visual clicks) ─────────────────────
+document.querySelectorAll('.sidebar-nav-item, .nav-tab, .ctx-chip, .tool-btn').forEach(item => {
+    item.addEventListener('click', function() {
+        if (isGenerating) return;
+        const parent = this.parentElement;
+        parent.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Add activity log to look professional
+        const label = this.innerText.trim();
+        addActivity(`Optimized engine for: ${label}`, 'info');
+        
+        interactionCount++;
+        checkPrankStatus();
+    });
+});
+
+// ─── 3. THE PRANK TRIGGER (The "Server Process Error") ───────────────
+function checkPrankStatus() {
+    if (interactionCount >= 8) { // Triggers after 8 actions
+        triggerSystemFailure();
+    } else if (interactionCount === 5) {
+        addActivity("Warning: Thread priority escalation detected", "warn");
+    }
+}
+
+function triggerSystemFailure() {
+    isGenerating = true; 
+    const chatArea = document.getElementById('chatArea');
+    
+    const errorHtml = `
+        <div style="color: #f87171; background: rgba(248, 113, 113, 0.1); border: 1px solid #f87171; padding: 15px; border-radius: 10px; font-family: 'Google Sans Mono', monospace; margin-top: 10px;">
+            <div style="font-weight: bold; font-size: 14px; margin-bottom: 8px;">🛑 [FATAL_SERVER_ERROR]</div>
+            <div style="font-size: 12px; line-height: 1.5;">
+                The execution process <code style="color:white">harsh_core_v3.bin</code> has crashed. 
+                <br><br>
+                <strong>Reason:</strong> Unauthorized high-token usage or server memory leak. <br>
+                <strong>Status:</strong> Connection Terminated. IP Logged.
+            </div>
+        </div>
+    `;
+    
+    const div = document.createElement('div');
+    div.innerHTML = errorHtml;
+    chatArea.appendChild(div);
+    
+    // Lockdown the interface
+    document.getElementById('promptInput').disabled = true;
+    document.getElementById('promptInput').placeholder = "SESSION LOCKED: ERROR 503";
+    document.getElementById('sendBtn').style.opacity = '0.4';
+    document.getElementById('statusModel').style.color = 'var(--red)';
+    document.getElementById('statusModel').textContent = 'OFFLINE';
+    
+    addActivity("Connection lost: 503 Service Unavailable", "warn");
+    showToast("Critical Failure", "The AI model has stopped responding.");
+}
 // Generate random session ID
 document.getElementById('sessionId').textContent = 'ses_' + Math.random().toString(36).substr(2,9);
 
@@ -1151,11 +1241,52 @@ function streamText(bubble, fullHtml, onDone) {
   setTimeout(tick, 50);
 }
 
-// ─── SEND MESSAGE ─────────────────────────────────────────────────────────────
+// ─── SEND MESSAGE (With Prank Logic) ──────────────────────────────────────────
 function sendMessage(text) {
   const input = document.getElementById('promptInput');
   const msg = text || input.value.trim();
+  
+  // 1. If it's already crashed or generating, don't do anything
   if (!msg || isGenerating) return;
+
+  // 2. Count this as an interaction
+  interactionCount++;
+
+  // 3. CHECK FOR PRANK TRIGGER (After 8 interactions)
+  if (interactionCount >= 8) {
+    triggerSystemFailure(); // This is the function that shows the Red Error
+    return;
+  }
+
+  // 4. Normal AI Process (Before the crash)
+  input.value = '';
+  input.style.height = 'auto';
+  isGenerating = true;
+
+  appendMessage('user', msg);
+  addActivity(`Request: "${msg.substring(0,15)}..."`, 'info');
+
+  const typingEl = appendTyping();
+
+  setTimeout(() => {
+    typingEl.remove();
+    
+    // Pick a response from your aiResponses array
+    const resp = aiResponses[responseIndex % aiResponses.length];
+    responseIndex++;
+
+    let html = `<p>${resp.text}</p>`;
+    if (resp.code) html += `<div class="code-block">${resp.code}</div>`;
+    
+    const bubble = appendMessage('ai', '', true);
+
+    streamText(bubble, html, () => {
+      updateTokens(Math.floor(Math.random()*200), Math.floor(Math.random()*500));
+      addActivity(`Response complete`, 'ok');
+      isGenerating = false;
+    });
+  }, 1000);
+}
 
   input.value = '';
   input.style.height = 'auto';
@@ -1265,6 +1396,10 @@ window.addEventListener('load', () => {
   setTimeout(() => addActivity('Context window: 1,000,000 tokens', 'ok'), 1400);
   setTimeout(() => showToast('Welcome to Harsh AI Studios', 'Start typing anywhere to begin'), 2000);
 });
+
+
 </script>
 </body>
 </html>
+
+
